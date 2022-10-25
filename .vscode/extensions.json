@@ -1,0 +1,30 @@
+{
+  "recommendations": [
+    "nrwl.angular-console",
+    "esbenp.prettier-vscode",
+    "firsttris.vscode-jest-runner",
+    "dbaeumer.vscode-eslint",
+    "naumovs.color-highlight",
+    "aaron-bond.better-comments",
+    "gruntfuggly.todo-tree",
+    "formulahendry.auto-rename-tag",
+    "nucllear.vscode-extension-auto-import",
+    "mhutchie.git-graph",
+    "kumar-harsh.graphql-for-vscode",
+    "graphql.vscode-graphql-syntax",
+    "ms-vscode.vscode-typescript-next",
+    "clemenspeters.format-json",
+    "khaeransori.json2csv",
+    "ms-vsliveshare.vsliveshare",
+    "vscodeshift.material-ui-snippets",
+    "unifiedjs.vscode-mdx",
+    "xyc.vscode-mdx-preview",
+    "edgarjs.next-js-commands",
+    "foxundermoon.next-js",
+    "pulkitgangwar.nextjs-snippets",
+    "prisma.prisma",
+    "sketchbuch.vsc-quokka-statusbar",
+    "wallabyjs.quokka-vscode",
+    "statelyai.stately-vscode"
+  ]
+}

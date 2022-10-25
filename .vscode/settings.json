@@ -1,0 +1,217 @@
+{
+  "files.autoSave": "onFocusChange",
+
+  "editor.tabSize": 2,
+  "editor.wordWrap": "bounded",
+  "editor.wordWrapColumn": 75,
+  "editor.renderWhitespace": "all",
+  "editor.guides.bracketPairs": true,
+  "editor.autoClosingBrackets": "always",
+  "editor.acceptSuggestionOnEnter": "smart",
+
+  /**
+   * FamilyFont
+   * ----------------
+   */
+  "editor.fontFamily": "'FiraCode-Retina', 'Fira Code', Menlo, Monaco, 'Courier New', monospace",
+  "editor.fontLigatures": true,
+  "editor.fontSize": 14,
+
+  /**
+   * Editor -> Format
+   * ----------------
+   */
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": true,
+  "editor.formatOnType": true,
+  "editor.formatOnPaste": true,
+  "editor.codeActionsOnSave": {
+    "source.organizeImports": false,
+    "source.fixAll": true,
+    "source.fixAll.eslint": true
+  },
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": false,
+    "editor.codeActionsOnSave": {
+      "source.fixAll.eslint": false
+    }
+  },
+
+  /**
+   * Prettier
+   * ----------------
+   */
+  "prettier.printWidth": 75,
+  "prettier.singleQuote": true,
+  "prettier.jsxSingleQuote": true,
+  "prettier.trailingComma": "none",
+
+  /**
+   * Eslint
+   * ----------------
+   */
+  "eslint.run": "onSave",
+  "eslint.options": {
+    "extensions": [".js", ".jsx", ".mdx", ".ts", ".tsx"]
+  },
+  "eslint.validate": [
+    "markdown",
+    "javascript",
+    "typescript",
+    "javascriptreact",
+    "typescriptreact"
+  ],
+  "eslint.format.enable": true,
+  "eslint.alwaysShowStatus": true,
+  "eslint.codeAction.showDocumentation": {
+    "enable": true
+  },
+
+  /**
+   * Explorer
+   * --------------
+   */
+  "explorer.fileNesting.enabled": true,
+  "explorer.fileNesting.patterns": {
+    "*.jsx": "${capture}.js",
+    "*.mts": "${capture}.typegen.ts",
+    "*.cts": "${capture}.typegen.ts",
+    "*.ts": "${capture}.js, ${capture}.typegen.ts",
+    "*.tsx": "${capture}.ts, ${capture}.typegen.ts",
+    "*.js": "${capture}.js.map, ${capture}.min.js, ${capture}.d.ts",
+    "tsconfig.json": "tsconfig.*.json",
+    "package.json": "package-lock.json, yarn.lock, pnpm-lock.yaml"
+  },
+
+  /**
+   * Tabnine
+   * ----------------
+   */
+  "tabnine.experimentalAutoImports": true,
+
+  /**
+   * 🎨 BETTER COMMENT
+   * ----------------
+   */
+  "better-comments.tags": [
+    {
+      "tag": "*",
+      "color": "#53CC22",
+      "strikethrough": false,
+      "underline": false,
+      "backgroundColor": "transparent",
+      "bold": false,
+      "italic": false
+    },
+    {
+      "tag": "!",
+      "color": "#FF2D00",
+      "strikethrough": false,
+      "underline": false,
+      "backgroundColor": "transparent",
+      "bold": false,
+      "italic": false
+    },
+    {
+      "tag": "?",
+      "color": "#3498DB",
+      "strikethrough": false,
+      "underline": false,
+      "backgroundColor": "transparent",
+      "bold": false,
+      "italic": false
+    },
+    {
+      "tag": "todo",
+      "color": "#3498DB",
+      "strikethrough": false,
+      "underline": false,
+      "backgroundColor": "transparent",
+      "bold": false,
+      "italic": false
+    },
+    {
+      "tag": "#",
+      "color": "#676767",
+      "strikethrough": true,
+      "underline": false,
+      "backgroundColor": "transparent",
+      "bold": false,
+      "italic": false
+    },
+    {
+      "tag": "[x]",
+      "strikethrough": true
+    }
+  ],
+
+  /**
+   * 🌳 TODO TREE
+   * ------------
+   */
+  "todo-tree.regex.regex": "((//|<!--|;|\\*|^)\\s*($TAGS)|^\\s*- \\[ \\])",
+  "todo-tree.general.tags": [
+    "TODO",
+    "FIXME",
+    "REVIEW",
+    "HACK",
+    "REF",
+    "[ ]",
+    "[x]",
+    "TOTHINK"
+  ],
+  "todo-tree.highlights.defaultHighlight": {
+    "type": "text-and-comment"
+  },
+  "todo-tree.highlights.customHighlight": {
+    "TODO": {
+      "foreground": "#FFF",
+      "background": "#002fa7",
+      "iconColour": "#fdc500",
+      "icon": "flame"
+    },
+    "[ ]": {
+      "foreground": "#FFF",
+      "background": "#002fa7",
+      "iconColour": "#fdc500",
+      "icon": "report"
+    },
+    "[x]": {
+      "foreground": "#555",
+      "background": "#00000000",
+      "iconColour": "#00FF00",
+      "icon": "check"
+    },
+    "REVIEW": {
+      "foreground": "#000",
+      "background": "#1e96fc",
+      "iconColour": "#1e96fc",
+      "icon": "note"
+    },
+    "TOTHINK": {
+      "foreground": "#000000",
+      "background": "#fdc500",
+      "iconColour": "#fdc500",
+      "icon": "beaker"
+    },
+    "FIXME": {
+      "foreground": "#FFF",
+      "background": "#f35b04",
+      "iconColour": "#f35b04",
+      "icon": "bug"
+    },
+    "HACK": {
+      "foreground": "#000000",
+      "background": "#f18701",
+      "iconColour": "#f18701",
+      "icon": "alert"
+    },
+    "REF": {
+      "foreground": "#000000",
+      "background": "#FFF",
+      "iconColour": "#aaa",
+      "icon": "link"
+    }
+  }
+}
