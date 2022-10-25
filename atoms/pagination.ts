@@ -1,4 +1,6 @@
 import { atom } from 'jotai';
+import { atomWithMachine } from 'jotai/xstate';
+import { createDataGridMachine } from '../machines';
 
 export const currentPageAtom = atom(0);
 
@@ -18,3 +20,9 @@ export const skipAtom = atom((get) => {
   const take = get(takeAtom);
   return Math.ceil(pageNumber * take - take);
 });
+
+export const defaultApiNameAtom = atom('peoples');
+export const dataGridMachineAtom = atomWithMachine((get) =>
+  // `get` is available only for initializing a machine
+  createDataGridMachine(get(defaultApiNameAtom))
+);

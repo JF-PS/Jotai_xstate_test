@@ -1,15 +1,16 @@
 import React from 'react';
 import Stack from '@mui/material/Stack';
 
-import { useAtom, useAtomValue } from 'jotai';
-import { pageCountAtom, currentPageAtom } from '../../atoms';
+import { useAtom } from 'jotai';
+import { dataGridMachineAtom } from '../../atoms';
 import PaginationButton from './../pagination-button/pagination-button';
 
 const PaginationButtonList = () => {
-  const pageCount = useAtomValue(pageCountAtom);
+  const [state] = useAtom(dataGridMachineAtom);
+  const { totalPage } = state.context;
   return (
     <Stack spacing={2} direction='row'>
-      {[...Array(pageCount)].map((_: number, index: number) => (
+      {[...Array(totalPage)].map((_: number, index: number) => (
         <PaginationButton key={index} pageNumber={index} />
       ))}
     </Stack>

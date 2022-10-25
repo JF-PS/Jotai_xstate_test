@@ -1,9 +1,14 @@
 import type { NextPage } from 'next';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { fetchApi } from '../utils';
 import { PeopleType } from '../types';
 import { peoplesColumn } from '../components/data-grid';
-import { takeAtom, currentPageAtom, updatePageCountAtom } from '../atoms';
+import {
+  takeAtom,
+  currentPageAtom,
+  updatePageCountAtom,
+  dataGridMachineAtom
+} from '../atoms';
 import { DataGrid } from '@mui/x-data-grid';
 import Stack from '@mui/material/Stack';
 import Pagination from '../components/pagination/pagination';
@@ -16,23 +21,35 @@ interface HomePageProps {
 }
 
 const HomePage = (props: HomePageProps) => {
-  const { people } = props;
-  const [rows] = useState<PeopleType[]>(people);
-  const updatePageCount = useSetAtom(updatePageCountAtom);
-  updatePageCount(people.length);
-  const [take, setTake] = useAtom(takeAtom);
-  const [pageNumber, setPageNumber] = useAtom(currentPageAtom);
+  const [state, send] = useAtom(dataGridMachineAtom);
+  const { data: rows, take, currentPage } = state.context;
+
+  const handlePageSizeChange = (take: number) => {
+    send({
+      type: 'SELECT_TAKE_CLICK',
+      take
+    });
+  };
+
+  const handlePageNumberChange = (currentPage: number) => {
+    send({
+      type: 'GO_TO_PAGE_NUMBER_CLICK',
+      currentPage
+    });
+  };
+
+  if (state.matches('loading')) return <p>Loading ...</p>;
 
   return (
     <Stack sx={{ height: '100vh', width: '100%', overflow: 'hidden' }}>
       <Pagination rowsPerPage={rowsPerPage} />
-      {pageNumber}
+      {currentPage}
       <DataGrid
         rowHeight={100}
-        page={pageNumber}
+        page={currentPage}
         pageSize={take}
-        onPageSizeChange={setTake}
-        onPageChange={setPageNumber}
+        onPageSizeChange={handlePageSizeChange}
+        onPageChange={handlePageNumberChange}
         rowsPerPageOptions={rowsPerPage}
         pagination
         columns={peoplesColumn}

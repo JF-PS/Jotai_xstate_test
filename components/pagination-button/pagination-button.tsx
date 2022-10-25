@@ -1,22 +1,29 @@
 import React from 'react';
 import Button from '@mui/material/Button';
 import { useAtom } from 'jotai';
-import { currentPageAtom } from '../../atoms';
+import { dataGridMachineAtom } from '../../atoms';
 
 interface PaginationButtonProps {
   pageNumber: number;
 }
 
 const PaginationButton = (props: PaginationButtonProps) => {
-  const { pageNumber: currentPage } = props;
-  const [pageNumber, setPageNumber] = useAtom(currentPageAtom);
+  const { pageNumber } = props;
+
+  const [state, send] = useAtom(dataGridMachineAtom);
+  const { currentPage } = state.context;
 
   return (
     <Button
       variant={pageNumber === currentPage ? 'contained' : 'outlined'}
-      onClick={() => setPageNumber(currentPage)}
+      onClick={() =>
+        send({
+          type: 'GO_TO_PAGE_NUMBER_CLICK',
+          currentPage: pageNumber
+        })
+      }
     >
-      {currentPage + 1}
+      {pageNumber + 1}
     </Button>
   );
 };
