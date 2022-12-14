@@ -1,7 +1,7 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-import type { NextApiRequest, NextApiResponse } from "next";
-import { peoples } from "../../db";
-import { PeopleType } from "../../types";
+import type { NextApiRequest, NextApiResponse } from 'next';
+import { peoples } from '../../db';
+import { PeopleType } from '../../types';
 
 type Data = PeopleType[];
 

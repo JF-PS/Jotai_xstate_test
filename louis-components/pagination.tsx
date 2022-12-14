@@ -1,4 +1,7 @@
+import { Group } from '@mantine/core';
 import React from 'react';
+import { EPaginationButtonActions } from '../louis-types';
+import PaginationButton from './pagination-button';
 import SelectRowsPerPage from './select-rows-per-page';
 
 interface PaginationProps {
@@ -12,7 +15,16 @@ function Pagination(props: PaginationProps) {
     value: number.toString(10)
   }));
 
-  return <SelectRowsPerPage data={data} />;
+  return (
+    <Group>
+      <SelectRowsPerPage data={data} />
+      <PaginationButton action={EPaginationButtonActions.first} />
+      <PaginationButton action={EPaginationButtonActions.previous} />
+
+      <PaginationButton action={EPaginationButtonActions.next} />
+      <PaginationButton action={EPaginationButtonActions.last} />
+    </Group>
+  );
 }
 
 export default Pagination;

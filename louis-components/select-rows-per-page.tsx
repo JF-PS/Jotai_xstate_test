@@ -18,7 +18,7 @@ function SelectRowsPerPage(props: SelectRowsPerPageProps) {
     <Select
       data={data}
       value={strNumber ? strNumber : '4'}
-      onChange={(number: SetStateAction<number>) => setrows(number)}
+      onChange={(number) => setrows(number)}
     />
   );
 }

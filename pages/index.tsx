@@ -8,6 +8,7 @@ import { DataGrid } from '@mui/x-data-grid';
 import Stack from '@mui/material/Stack';
 import Pagination from '../components/pagination/pagination';
 import { useAtom, useSetAtom } from 'jotai';
+import { ThemeProvider } from '@mui/material';
 
 const rowsPerPage = [100, 24, 18, 12, 6];
 
@@ -27,6 +28,7 @@ const HomePage = (props: HomePageProps) => {
     <Stack sx={{ height: '100vh', width: '100%', overflow: 'hidden' }}>
       <Pagination rowsPerPage={rowsPerPage} />
       {pageNumber}
+
       <DataGrid
         rowHeight={100}
         page={pageNumber}
@@ -38,6 +40,7 @@ const HomePage = (props: HomePageProps) => {
         columns={peoplesColumn}
         rows={rows}
       />
+
       <Pagination rowsPerPage={rowsPerPage} />
     </Stack>
   );
