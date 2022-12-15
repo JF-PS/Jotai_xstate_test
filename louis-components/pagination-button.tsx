@@ -1,13 +1,14 @@
 import React from 'react';
-import { ActionIcon } from '@mantine/core';
+import { ActionIcon, ActionIconProps } from '@mantine/core';
 import {
   IconChevronLeft,
   IconChevronsLeft,
   IconChevronRight,
   IconChevronsRight
 } from '@tabler/icons';
-import { EPaginationButtonActions } from '../louis-types';
 import { useAtomValue, useSetAtom } from 'jotai';
+
+import { EPaginationButtonActions } from '../louis-types';
 import { actualPage, MaxPageNumber, setActualPage } from '../louis-atoms';
 
 const ActionIconsList = {
@@ -17,12 +18,12 @@ const ActionIconsList = {
   [EPaginationButtonActions.next]: IconChevronRight
 };
 
-interface PaginationButtonProps {
+interface PaginationButtonProps extends Omit<ActionIconProps, 'disabled'> {
   action: EPaginationButtonActions;
 }
 
 function PaginationButton(props: PaginationButtonProps) {
-  const { action } = props;
+  const { action, ...other } = props;
   const Icon = ActionIconsList[action];
 
   const setNewPage = useSetAtom(setActualPage);
@@ -35,21 +36,23 @@ function PaginationButton(props: PaginationButtonProps) {
   let disable = false;
 
   if (
-    actualPageNumber <= 1 &&
-    (action === 'first' || action === 'previous')
+    actualPageNumber <= 0 &&
+    (action === EPaginationButtonActions.first ||
+      action === EPaginationButtonActions.previous)
   ) {
     disable = true;
   }
 
   if (
     actualPageNumber >= MaxPageNbr &&
-    (action === 'last' || action === 'next')
+    (action === EPaginationButtonActions.last ||
+      action === EPaginationButtonActions.next)
   ) {
     disable = true;
   }
 
   return (
-    <ActionIcon onClick={handleClick} disabled={disable}>
+    <ActionIcon {...other} onClick={handleClick} disabled={disable}>
       <Icon />
     </ActionIcon>
   );

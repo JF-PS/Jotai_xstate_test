@@ -1,24 +1,33 @@
-import { Select } from '@mantine/core';
-import { SetStateAction, useAtom } from 'jotai';
 import React from 'react';
+import { useAtom } from 'jotai';
+import { Select, SelectProps } from '@mantine/core';
+
+import { propsSx } from '../utils';
 import { RowsPerPage } from '../louis-atoms';
 
-interface SelectRowsPerPageProps {
+interface SelectRowsPerPageProps extends Omit<SelectProps, 'data'> {
   data: { label: string; value: string }[];
 }
 
 function SelectRowsPerPage(props: SelectRowsPerPageProps) {
-  const { data } = props;
+  const { data, sx, ...other } = props;
 
   const [rows, setrows] = useAtom(RowsPerPage);
 
-  const strNumber = rows.toString(10);
+  const strNumber = rows.toString();
+
+  const HandleChange = (value: string) => {
+    const number = parseInt(value);
+    setrows(number);
+  };
 
   return (
     <Select
+      {...other}
+      sx={propsSx(sx)}
       data={data}
-      value={strNumber ? strNumber : '4'}
-      onChange={(number) => setrows(number)}
+      value={strNumber ? strNumber : '6'}
+      onChange={HandleChange}
     />
   );
 }

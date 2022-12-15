@@ -3,11 +3,11 @@ import type { NextPage } from 'next';
 
 import { Group, Text } from '@mantine/core';
 import { DataGrid } from '@mui/x-data-grid';
-import { atom, useAtom, useAtomValue, useSetAtom } from 'jotai';
+import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 
 import { fetchApi } from '../utils';
 import { PeopleType } from '../types';
-import { Pagination } from '../louis-components/';
+import { ClientOnly, Pagination } from '../louis-components/';
 import { peoplesColumn } from '../components/data-grid';
 import {
   actualPage,
@@ -15,7 +15,7 @@ import {
   MaxPageNumber,
   RowsPerPage
 } from '../louis-atoms';
-import { takeAtom, currentPageAtom, updatePageCountAtom } from '../atoms';
+
 import { ThemeProvider, useTheme } from '@mui/material';
 
 const rowsPerPage = [100, 24, 18, 12, 6];
@@ -31,14 +31,15 @@ const HomePage = (props: HomePageProps) => {
   const setDataRowsNumber = useSetAtom(DataRowsNumber);
   const [actualPageNumber, setActualPageNumber] = useAtom(actualPage);
   const maxPagNumber = useAtomValue(MaxPageNumber);
+
   const [take, setTake] = useAtom(RowsPerPage);
 
   useEffect(() => {
     setDataRowsNumber(people.length);
   }, [people, setDataRowsNumber]);
-  console.log({ peoplesColumn, rows });
 
   const muitheme = useTheme();
+
   return (
     <Group
       sx={{
@@ -49,9 +50,11 @@ const HomePage = (props: HomePageProps) => {
       }}
     >
       <Pagination rowsPerPage={rowsPerPage} />
-      <Text>
-        page {actualPageNumber} of {maxPagNumber}
-      </Text>
+      <ClientOnly>
+        <Text>
+          page {actualPageNumber} of {maxPagNumber}
+        </Text>
+      </ClientOnly>
       <ThemeProvider theme={muitheme}>
         <DataGrid
           rowHeight={100}
