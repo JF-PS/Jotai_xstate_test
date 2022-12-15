@@ -17,6 +17,10 @@ import {
 } from '../louis-atoms';
 
 import { ThemeProvider, useTheme } from '@mui/material';
+import {
+  PaginationMachine,
+  paginationMachineAtom
+} from '../louis-machines';
 
 const rowsPerPage = [100, 24, 18, 12, 6];
 
@@ -26,6 +30,7 @@ interface HomePageProps {
 
 const HomePage = (props: HomePageProps) => {
   const { people } = props;
+  const muitheme = useTheme();
   const [rows] = useState<PeopleType[]>(people);
 
   const setDataRowsNumber = useSetAtom(DataRowsNumber);
@@ -38,7 +43,12 @@ const HomePage = (props: HomePageProps) => {
     setDataRowsNumber(people.length);
   }, [people, setDataRowsNumber]);
 
-  const muitheme = useTheme();
+  const [state, send] = useAtom(paginationMachineAtom);
+  console.log(state.matches('init'));
+
+  if (state.matches('init')) {
+    send({ type: 'INIT' });
+  }
 
   return (
     <Group
