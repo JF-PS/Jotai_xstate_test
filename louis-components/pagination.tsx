@@ -1,10 +1,16 @@
 import React from 'react';
 import { Group } from '@mantine/core';
 
-import PaginationButton from './pagination-button';
+import PaginationButton from './pagination-button/pagination-button';
 import SelectRowsPerPage from './select-rows-per-page';
 import { EPaginationButtonActions } from '../louis-types';
 import ClientOnly from './client-only';
+import {
+  FirstPageBtn,
+  LastPageBtn,
+  NextPageBtn,
+  PreviousPageBtn
+} from './pagination-button';
 
 interface PaginationProps {
   rowsPerPage: number[];
@@ -21,11 +27,10 @@ function Pagination(props: PaginationProps) {
     <Group>
       <SelectRowsPerPage data={data} />
       <ClientOnly>
-        <PaginationButton action={EPaginationButtonActions.first} />
-        <PaginationButton action={EPaginationButtonActions.previous} />
-
-        <PaginationButton action={EPaginationButtonActions.next} />
-        <PaginationButton action={EPaginationButtonActions.last} />
+        <FirstPageBtn />
+        <PreviousPageBtn />
+        <NextPageBtn />
+        <LastPageBtn />
       </ClientOnly>
     </Group>
   );

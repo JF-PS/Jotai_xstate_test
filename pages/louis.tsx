@@ -1,54 +1,49 @@
-import { useEffect, useState } from 'react';
-import type { NextPage } from 'next';
-
+import { useAtom } from 'jotai';
 import { Group, Text } from '@mantine/core';
 import { DataGrid } from '@mui/x-data-grid';
-import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 
-import { fetchApi } from '../utils';
-import { PeopleType } from '../types';
-import { ClientOnly, Pagination } from '../louis-components/';
 import { peoplesColumn } from '../components/data-grid';
-import {
-  actualPage,
-  DataRowsNumber,
-  MaxPageNumber,
-  RowsPerPage
-} from '../louis-atoms';
-
 import { ThemeProvider, useTheme } from '@mui/material';
-import {
-  PaginationMachine,
-  paginationMachineAtom
-} from '../louis-machines';
+import { paginationMachineAtom } from '../louis-machines';
+import { ClientOnly, Pagination } from '../louis-components/';
 
 const rowsPerPage = [100, 24, 18, 12, 6];
 
-interface HomePageProps {
-  people: PeopleType[];
-}
-
-const HomePage = (props: HomePageProps) => {
-  const { people } = props;
+const HomePage = () => {
   const muitheme = useTheme();
-  const [rows] = useState<PeopleType[]>(people);
-
-  const setDataRowsNumber = useSetAtom(DataRowsNumber);
-  const [actualPageNumber, setActualPageNumber] = useAtom(actualPage);
-  const maxPagNumber = useAtomValue(MaxPageNumber);
-
-  const [take, setTake] = useAtom(RowsPerPage);
-
-  useEffect(() => {
-    setDataRowsNumber(people.length);
-  }, [people, setDataRowsNumber]);
 
   const [state, send] = useAtom(paginationMachineAtom);
-  console.log(state.matches('init'));
+  const {
+    actualPage,
+    RowsPerPage,
+    MaxPageNumber,
+    Data,
+    DataRowsNumber,
+    error
+  } = state.context;
 
   if (state.matches('init')) {
-    send({ type: 'INIT' });
+    send({
+      type: 'INIT'
+    });
   }
+  console.log('contexts', state.context);
+
+  if (state.matches('fatalError')) {
+    console.log('fatal from front');
+
+    console.log(error);
+  }
+  if (state.matches('fetch') || !Data) {
+    return <Text>Loading ...</Text>;
+  }
+
+  const handleChange = (pageNumber: number) => {
+    send({
+      type: 'SETPAGE',
+      pageNumber: pageNumber
+    });
+  };
 
   return (
     <Group
@@ -62,20 +57,22 @@ const HomePage = (props: HomePageProps) => {
       <Pagination rowsPerPage={rowsPerPage} />
       <ClientOnly>
         <Text>
-          page {actualPageNumber} of {maxPagNumber}
+          page {actualPage} of {MaxPageNumber}
         </Text>
       </ClientOnly>
       <ThemeProvider theme={muitheme}>
         <DataGrid
           rowHeight={100}
-          page={actualPageNumber}
-          pageSize={take}
-          onPageSizeChange={setTake}
-          onPageChange={setActualPageNumber}
+          page={actualPage}
+          pageSize={RowsPerPage}
+          onPageSizeChange={(value: number) =>
+            send({ type: 'SETROWSPERPAGE', number: value })
+          }
+          onPageChange={handleChange}
           rowsPerPageOptions={rowsPerPage}
           pagination
           columns={peoplesColumn}
-          rows={rows}
+          rows={Data}
           sx={{ width: '100%' }}
         />
       </ThemeProvider>
@@ -83,19 +80,5 @@ const HomePage = (props: HomePageProps) => {
     </Group>
   );
 };
-
-export async function getStaticProps() {
-  // Call an external API endpoint to get posts.
-  // You can use any data fetching library
-  const people = await fetchApi('peoples');
-
-  // By returning { props: { peoples } }, the HomePage component
-  // will receive `peoples` as a prop at build time
-  return {
-    props: {
-      people
-    }
-  };
-}
 
 export default HomePage;

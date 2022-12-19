@@ -24,7 +24,10 @@ export const defaultValuesAtom = atom((get) => ({
   DataRowsNumber: get(DataRowsNumber),
   RowsPerPage: get(RowsPerPage),
   MaxPageNumber: get(MaxPageNumber),
-  actualPage: get(actualPage)
+  actualPage: get(actualPage),
+  Data: null,
+  error: null,
+  counter: 0
 }));
 
 export const setActualPage = atom(
