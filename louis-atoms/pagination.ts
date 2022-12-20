@@ -26,8 +26,10 @@ export const defaultValuesAtom = atom((get) => ({
   MaxPageNumber: get(MaxPageNumber),
   actualPage: get(actualPage),
   Data: null,
-  error: null,
-  counter: 0
+  error: {},
+  counter: 0,
+  timer: 0,
+  fetchUrl: ''
 }));
 
 export const setActualPage = atom(

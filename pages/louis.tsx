@@ -1,9 +1,12 @@
+import React, { useState } from 'react';
+
 import { useAtom } from 'jotai';
-import { Group, Text } from '@mantine/core';
 import { DataGrid } from '@mui/x-data-grid';
+import { IconAlertCircle } from '@tabler/icons';
+import { ThemeProvider, useTheme } from '@mui/material';
+import { Alert, Button, Group, Loader, Text } from '@mantine/core';
 
 import { peoplesColumn } from '../components/data-grid';
-import { ThemeProvider, useTheme } from '@mui/material';
 import { paginationMachineAtom } from '../louis-machines';
 import { ClientOnly, Pagination } from '../louis-components/';
 
@@ -13,29 +16,58 @@ const HomePage = () => {
   const muitheme = useTheme();
 
   const [state, send] = useAtom(paginationMachineAtom);
-  const {
-    actualPage,
-    RowsPerPage,
-    MaxPageNumber,
-    Data,
-    DataRowsNumber,
-    error
-  } = state.context;
+  const { actualPage, RowsPerPage, MaxPageNumber, Data, error, counter } =
+    state.context;
 
   if (state.matches('init')) {
     send({
-      type: 'INIT'
+      type: 'INIT',
+      fetchUrl: 'peoples'
     });
   }
-  console.log('contexts', state.context);
 
   if (state.matches('fatalError')) {
-    console.log('fatal from front');
+    return (
+      <Alert
+        icon={<IconAlertCircle size={16} />}
+        title='Fatal Error'
+        color='red'
+        variant='filled'
+      >
+        We are sorry but an error occured in the application
+      </Alert>
+    );
+  }
 
-    console.log(error);
+  if (state.matches('RETRY')) {
+    let errorTitle = 'Error';
+    let errorMessage;
+
+    if (error === 404) {
+      errorTitle = 'Fetch Error, path not found';
+    }
+    errorMessage = `Will try again in ${counter * 5} seconds`;
+
+    return (
+      <Alert
+        icon={<IconAlertCircle size={16} />}
+        title={errorTitle}
+        color='red'
+      >
+        {errorMessage}
+        <Button onClick={() => send({ type: 'TRYAGAIN' })}>
+          Retry now
+        </Button>
+      </Alert>
+    );
   }
   if (state.matches('fetch') || !Data) {
-    return <Text>Loading ...</Text>;
+    return (
+      <Group>
+        <Text>Loading</Text>
+        <Loader color='indigo' />
+      </Group>
+    );
   }
 
   const handleChange = (pageNumber: number) => {
